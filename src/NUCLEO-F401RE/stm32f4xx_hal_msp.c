@@ -50,6 +50,8 @@
   */
 void HAL_MspInit(void)
 {
+  DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk; //Turn on cycle counter, needed for non-blocking delay
+  
   HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
 
   /* System interrupt init*/
