@@ -12,3 +12,4 @@ We connected the limit switch to PB4, and ground. Then, we configured it to be a
 Next, we used pin PC7 and ground, through a potentiometer, to light up and LED with a GPIO pin.
 
 Lastly, we hooked up the motors and got the motors spinning based on the UART commands, or the demo. See below for documentation:
+![alt text](image.png)
