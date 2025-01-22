@@ -34,6 +34,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "xnucleoihm02a1_interface.h"
+#include "stm32f4xx_hal_gpio.h"
+
 
 /**
   * @addtogroup BSP
@@ -151,7 +153,16 @@ void MX_GPIO_Init(void)
   /* Configures LED GPIO */
   BSP_LED_Init(LED2);
 #endif
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+
+  GPIO_InitStruct.Pin = GPIO_PIN_7;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;  // Push-pull output
+  GPIO_InitStruct.Pull = GPIO_NOPULL;          // No pull-up or pull-down
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW; // Low frequency for LED control
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 }
+
 
 /**
   * @brief  Initialize the SPI used by the NUCLEO board.

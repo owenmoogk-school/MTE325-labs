@@ -87,6 +87,15 @@ int main(void)
   
   /* X-NUCLEO-IHM02A1 initialization */
   BSP_Init();
+
+  HAL_Init();
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+
   
 #ifdef NUCLEO_USE_USART
   /* Transmit the initial message to the PC via UART */
@@ -110,9 +119,18 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-    /* Check if any Application Command for L6470 has been entered by USART */
-    USART_CheckAppCmd();
+    /* Read the state of PB4 */
+    GPIO_PinState switch_state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4);
+    if (switch_state == GPIO_PIN_SET){
+      USART_Transmit(&huart2, "HIGH\n\r");
+    }
+    else{
+      USART_Transmit(&huart2, "low\n\r");
+    }
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, switch_state);
+    HAL_Delay(50); // Add a delay to debounce the switch
   }
+
 #endif
 }
 
