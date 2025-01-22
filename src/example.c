@@ -94,9 +94,9 @@ void MicrosteppingMotor_Example_01(void)
 {
 #define MPR_1     4			  //!< Motor Movements Per Revolution 1st option
 #define MPR_2     8			  //!< Motor Movements Per Revolution 2nd option
-#define DELAY_1   1000		//!< Delay time 1st option
-#define DELAY_2   2500		//!< Delay time 2nd option
-#define DELAY_3   10000   //!< Delay time 3rd option
+#define DELAY_1   100		//!< Delay time 1st option
+#define DELAY_2   250		//!< Delay time 2nd option
+#define DELAY_3   1000   //!< Delay time 3rd option
   
   uint32_t Step;
   uint32_t Speed;

@@ -119,16 +119,18 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
+    USART_CheckAppCmd();
+
     /* Read the state of PB4 */
     GPIO_PinState switch_state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4);
     if (switch_state == GPIO_PIN_SET){
-      USART_Transmit(&huart2, "HIGH\n\r");
+      // USART_Transmit(&huart2, "HIGH\n\r");
     }
     else{
-      USART_Transmit(&huart2, "low\n\r");
+      // USART_Transmit(&huart2, "low\n\r");
     }
     HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, switch_state);
-    HAL_Delay(50); // Add a delay to debounce the switch
+    HAL_Delay(500); // Add a delay to debounce the switch
   }
 
 #endif
