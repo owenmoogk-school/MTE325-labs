@@ -10,3 +10,5 @@ In this session, we're initializing our project with a new git repo, and followi
 We connected the limit switch to PB4, and ground. Then, we configured it to be a pullup high, and outputted the result to serial. This way we could output the read value and verify that the circuit works.
 
 Next, we used pin PC7 and ground, through a potentiometer, to light up and LED with a GPIO pin.
+
+Lastly, we hooked up the motors and got the motors spinning based on the UART commands, or the demo. See below for documentation:
