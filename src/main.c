@@ -96,6 +96,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
 
+  // HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
+  // HAL_NVIC_EnableIRQ(EXTI4_IRQn);
   
 #ifdef NUCLEO_USE_USART
   /* Transmit the initial message to the PC via UART */
@@ -121,16 +123,30 @@ int main(void)
   {
     USART_CheckAppCmd();
 
-    /* Read the state of PB4 */
-    GPIO_PinState switch_state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4);
-    if (switch_state == GPIO_PIN_SET){
-      // USART_Transmit(&huart2, "HIGH\n\r");
+    // LAB 1
+    // /* Read the state of PB4 */
+    // GPIO_PinState switch_state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4);
+    // if (switch_state == GPIO_PIN_SET){
+    //   // USART_Transmit(&huart2, "HIGH\n\r");
+    // }
+    // else{
+    //   // USART_Transmit(&huart2, "low\n\r");
+    // }
+    // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, switch_state);
+    // HAL_Delay(500); // Add a delay to debounce the switch
+
+
+    // LAB 2
+    // IF POLLING
+    if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4)){
+      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
     }
     else{
-      // USART_Transmit(&huart2, "low\n\r");
+      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
     }
-    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, switch_state);
-    HAL_Delay(500); // Add a delay to debounce the switch
+    // IF INTERRUPTS
+    // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+
   }
 
 #endif

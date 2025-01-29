@@ -154,13 +154,21 @@ void MX_GPIO_Init(void)
   BSP_LED_Init(LED2);
 #endif
 
-  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitTypeDef GPIO7;
 
-  GPIO_InitStruct.Pin = GPIO_PIN_7;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;  // Push-pull output
-  GPIO_InitStruct.Pull = GPIO_NOPULL;          // No pull-up or pull-down
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW; // Low frequency for LED control
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  GPIO7.Pin = GPIO_PIN_7;
+  GPIO7.Mode = GPIO_MODE_OUTPUT_PP;  // Push-pull output
+  GPIO7.Pull = GPIO_NOPULL;          // No pull-up or pull-down
+  GPIO7.Speed = GPIO_SPEED_FREQ_LOW; // Low frequency for LED control
+  HAL_GPIO_Init(GPIOC, &GPIO7);
+
+  GPIO_InitTypeDef GPIO4;
+
+  GPIO4.Pin = GPIO_PIN_4;
+  GPIO4.Mode = GPIO_MODE_IT_RISING;  
+  GPIO4.Pull = GPIO_NOPULL;
+  GPIO4.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO4);
 }
 
 
