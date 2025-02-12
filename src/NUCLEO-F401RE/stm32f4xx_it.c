@@ -106,10 +106,16 @@ void EXTI15_10_IRQHandler(void)
 
 void EXTI4_IRQHandler(void)
 {
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+  // Lab 2 I think
+  // HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
+  // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4); // Clear interrupt flag
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET); // Example: Turn on LED
+  USART_Transmit(&huart2, "X1 Limit Switch Triggered\n\r");
 }
 
+void EXTI5_9_IRQHandler
 /**
   * @}
   */ /* End of STM32F4XX_IT_Exported_Functions */

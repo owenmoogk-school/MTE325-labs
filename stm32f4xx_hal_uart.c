@@ -1447,7 +1447,7 @@ HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, uint8_t *pDat
   }
 }
 
-/**
+/** *  *  *  * 
   * @brief  Receives an amount of data in DMA mode.
   * @note   When UART parity is not enabled (PCE = 0), and Word Length is configured to 9 bits (M1-M0 = 01),
   *         the received data is handled as a set of u16. In this case, Size must indicate the number

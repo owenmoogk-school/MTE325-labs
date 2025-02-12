@@ -162,13 +162,27 @@ void MX_GPIO_Init(void)
   GPIO7.Speed = GPIO_SPEED_FREQ_LOW; // Low frequency for LED control
   HAL_GPIO_Init(GPIOC, &GPIO7);
 
-  GPIO_InitTypeDef GPIO4;
+  
+  // GPIO_InitTypeDef GPIO4;
 
-  GPIO4.Pin = GPIO_PIN_4;
-  GPIO4.Mode = GPIO_MODE_IT_RISING;  
-  GPIO4.Pull = GPIO_NOPULL;
-  GPIO4.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO4);
+  // GPIO4.Pin = GPIO_PIN_4;
+  // GPIO4.Mode = GPIO_MODE_IT_RISING;  
+  // GPIO4.Pull = GPIO_NOPULL;
+  // GPIO4.Speed = GPIO_SPEED_FREQ_LOW;
+  // HAL_GPIO_Init(GPIOB, &GPIO4);
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitStruct.Pin = GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7; // these are for the four limit switches
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;  // assuming we use a pull up on the swiches thus they're normally high
+  GPIO_InitStruct.Pull = GPIO_PULLUP;          
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_IRQn); // becuase 4_IRQ handles 4
+
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn); // because 9_5_IRQ handles 5, 6, 7.
+
 }
 
 
