@@ -45,3 +45,15 @@ Which synchronization technique do you think will be more appropriate for the li
 Interrupts would be more appropriate for the limit switches as high-priority interrupts will guarantee a response window which would be beneficial for safety while simultaneously guaranteeing that the system can do other work. Tight polling wouldn’t be an acceptable option, because other work would have to be done by the system while it needs to check the limit switches. However, if it did occasional polling it wouldn’t have the same time guarantee, which is an issue for a safety feature. Additionally, adding interrupts would allow the system to be expanded and developed in the future, with increasing scalability.
 
 The latency between when the interrupt is triggered and when it is executed could result in the limit switches not functioning, or responding, as intended. This is critical when an immediate machine stop is required, as any delay in handling the interrupt could prevent the machine from stopping in time. This could be prevented by good system design and properly weighing tradeoffs when making design decisions.
+
+
+## Lab 3: Limit Switch implementation
+### Test cases:
+- if the X switches are triggered the X motors should be capable or reversing or stopping
+- if the Y switches are triggered the Y motors should be capable or reversing or stopping
+- corner case: if the swtiches are both triggered at a corner the machine should stop
+- 
+
+### Implementation choices:
+- The switches were chosen to be normally high and thus triggered on a falling edge with a pulldown resistor. We choose this because if the high lines on any of the switches break we want the system to recognize it is in an undefined state and thus stop as opposed to do nothing.
+- For the interrupts we set separate handlers for each switch such that there is a faster response time given that everything has a dedicated handler
