@@ -1,4 +1,4 @@
 PB4
-PB6
+PA0
+PA1
 PC7
-PA9

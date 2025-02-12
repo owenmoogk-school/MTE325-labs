@@ -37,55 +37,46 @@
 #include "example_usart.h"
 #include "l6470.h"
 
-/**
-* @brief This function handles System tick timer.
-*/
 void SysTick_Handler(void)
 {
   HAL_IncTick();
   HAL_SYSTICK_IRQHandler();
 }
 
-/**
-* @brief This function handles EXTI Line1 interrupt.
-*/
-void EXTI1_IRQHandler(void)
-{
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
-}
-
-/**
-* @brief This function handles EXTI Line0 interrupt.
-*/
+// y bottom
 void EXTI0_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+  L6470_Run(L6470_ID(1), 1, 10000);
 }
 
-/**
-* @brief This function handles USART2 global interrupt.
-*/
+void EXTI1_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
+  L6470_Run(L6470_ID(0), 0, 10000);
+}
+
 void USART2_IRQHandler(void)
 {
   HAL_UART_IRQHandler(&huart2);
   USART_ITCharManager(&huart2);
 }
 
-/**
-* @brief This function handles EXTI Line[15:10] interrupts.
-*/
-void EXTI15_10_IRQHandler(void)
-{
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+void EXTI3_IRQHandler(void){
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_3);
+  L6470_HardStop(L6470_ID(0));
 }
 
+// x min
 void EXTI4_IRQHandler(void)
 {
-  if(__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_4) != RESET)
-  {
-    __HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);
-    
-    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
-    L6470_HardStop(L6470_ID(0));
-  }
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
+  L6470_Run(L6470_ID(0), 1, 10000);
+}
+
+// y max
+void EXTI9_5_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);
+  L6470_Run(L6470_ID(1), 0, 10000);
 }
