@@ -35,6 +35,7 @@
 #include "stm32f4xx_it.h"
 #include "xnucleoihm02a1_interface.h"
 #include "example_usart.h"
+#include "l6470.h"
 
 /**
   * @addtogroup MicrosteppingMotor_Example
@@ -107,15 +108,18 @@ void EXTI15_10_IRQHandler(void)
 void EXTI4_IRQHandler(void)
 {
   // Lab 2 I think
-  // HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
-  // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+  if(__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_4) != RESET)
+  {
+    __HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);
+    
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+    L6470_HardStop(L6470_ID(0));
+  }
 
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4); // Clear interrupt flag
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET); // Example: Turn on LED
-  USART_Transmit(&huart2, "X1 Limit Switch Triggered\n\r");
+  // HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4); // Clear interrupt flag
+  // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET); // Example: Turn on LED
 }
 
-void EXTI5_9_IRQHandler
 /**
   * @}
   */ /* End of STM32F4XX_IT_Exported_Functions */

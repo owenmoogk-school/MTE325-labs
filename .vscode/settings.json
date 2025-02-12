@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "xnucleoihm02a1_interface.h": "c"
+        "xnucleoihm02a1_interface.h": "c",
+        "l6470.h": "c"
     }
 }

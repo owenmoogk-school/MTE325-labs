@@ -172,9 +172,9 @@ void MX_GPIO_Init(void)
   // HAL_GPIO_Init(GPIOB, &GPIO4);
 
   GPIO_InitTypeDef GPIO_InitStruct;
-  GPIO_InitStruct.Pin = GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7; // these are for the four limit switches
+  GPIO_InitStruct.Pin = GPIO_PIN_4 ; // | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7; // these are for the four limit switches
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;  // assuming we use a pull up on the swiches thus they're normally high
-  GPIO_InitStruct.Pull = GPIO_PULLUP;          
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;          
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
