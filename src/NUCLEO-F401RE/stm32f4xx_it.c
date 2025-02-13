@@ -47,13 +47,19 @@ void SysTick_Handler(void)
 void EXTI0_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
-  L6470_Run(L6470_ID(1), 1, 10000);
+  // L6470_Run(L6470_ID(1), 1, 10000);
+  L6470_HardStop(L6470_ID(0));
+  L6470_HardStop(L6470_ID(1));
+
 }
 
 void EXTI1_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
-  L6470_Run(L6470_ID(0), 0, 10000);
+  // L6470_Run(L6470_ID(0), 0, 10000);
+  L6470_HardStop(L6470_ID(0));
+  L6470_HardStop(L6470_ID(1));
+
 }
 
 void USART2_IRQHandler(void)
@@ -65,18 +71,25 @@ void USART2_IRQHandler(void)
 void EXTI3_IRQHandler(void){
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_3);
   L6470_HardStop(L6470_ID(0));
+  L6470_HardStop(L6470_ID(1));
 }
 
 // x min
 void EXTI4_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
-  L6470_Run(L6470_ID(0), 1, 10000);
+  // L6470_Run(L6470_ID(0), 1, 10000);
+  L6470_HardStop(L6470_ID(0));
+  L6470_HardStop(L6470_ID(1));
+
 }
 
 // y max
 void EXTI9_5_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);
-  L6470_Run(L6470_ID(1), 0, 10000);
+  // L6470_Run(L6470_ID(1), 0, 10000);
+  L6470_HardStop(L6470_ID(0));
+  L6470_HardStop(L6470_ID(1));
+
 }

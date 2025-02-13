@@ -51,9 +51,15 @@ The latency between when the interrupt is triggered and when it is executed coul
 ### Test cases:
 - if the X switches are triggered the X motors should be capable or reversing or stopping
 - if the Y switches are triggered the Y motors should be capable or reversing or stopping
-- corner case: if the swtiches are both triggered at a corner the machine should stop
-- 
+- corner case: if the switches are both triggered at a corner the machine should reverse in both directions or stop
+- The switches will have bounce, they should be debounced
+- If the left and right (or top and bottom) are pressed at the same time, the machine should move in a direction that is safe to do so. (or stop)
 
 ### Implementation choices:
 - The switches were chosen to be normally high and thus triggered on a falling edge with a pulldown resistor. We choose this because if the high lines on any of the switches break we want the system to recognize it is in an undefined state and thus stop as opposed to do nothing.
 - For the interrupts we set separate handlers for each switch such that there is a faster response time given that everything has a dedicated handler
+
+
+### For next time
+- Setup debouncing
+- 
