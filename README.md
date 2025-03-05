@@ -66,3 +66,6 @@ In this lab, we used machine number 9. We will continue to use this machine for 
 ### For next time
 - Setup debouncing
 - 
+
+
+Change away from PA0

@@ -17,28 +17,54 @@ void wait(float ms){
   while (i < ms * clockSpeed / 2){i++;}
 }
 
-// y min
+// y max
 void EXTI0_IRQHandler(void)
 {
   wait(debounceDelay);
   if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0))
   {
-    // L6470_Run(L6470_ID(1), 1, 10000);
-    L6470_HardStop(L6470_ID(0));
-    L6470_HardStop(L6470_ID(1));
+    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7))
+    {
+      L6470_Run(L6470_ID(1), 1, 10000);
+    }
+    else{
+      L6470_HardStop(L6470_ID(1));
+    }
   }
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
 }
 
-// y max
+// y min
+void EXTI9_5_IRQHandler(void)
+{
+  wait(debounceDelay);
+  if (!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7))
+  {
+    if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0))
+    {
+      L6470_Run(L6470_ID(1), 0, 10000);
+    }
+    else
+    {
+      L6470_HardStop(L6470_ID(1));
+    }
+  }
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);
+}
+
+// x max
 void EXTI1_IRQHandler(void)
 {
   wait(debounceDelay);
   if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1))
   {
-    // L6470_Run(L6470_ID(0), 0, 10000);
-    L6470_HardStop(L6470_ID(0));
-    L6470_HardStop(L6470_ID(1));
+    if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4))
+    {
+      L6470_Run(L6470_ID(0), 0, 10000);
+    }
+    else{
+      L6470_HardStop(L6470_ID(0));
+    }
   }
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
 }
@@ -49,25 +75,16 @@ void EXTI4_IRQHandler(void)
   wait(debounceDelay);
   if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4))
   {
-    // L6470_Run(L6470_ID(0), 1, 10000);
-    L6470_HardStop(L6470_ID(0));
-    L6470_HardStop(L6470_ID(1));
+    if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)){
+      L6470_Run(L6470_ID(0), 1, 10000);
+    }
+    else{
+      L6470_HardStop(L6470_ID(0));
+    }
   }
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
 }
 
-// y max
-void EXTI9_5_IRQHandler(void)
-{
-  wait(debounceDelay);
-  if (!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7))
-  {
-    // L6470_Run(L6470_ID(1), 0, 10000);
-    L6470_HardStop(L6470_ID(0));
-    L6470_HardStop(L6470_ID(1));
-  }
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);
-}
 
 void USART2_IRQHandler(void)
 {

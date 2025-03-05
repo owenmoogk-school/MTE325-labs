@@ -175,6 +175,12 @@ void MX_GPIO_Init(void)
   PA1.Pull = GPIO_PULLDOWN;          
   HAL_GPIO_Init(GPIOA, &PA1);
 
+  GPIO_InitTypeDef PB0;
+  PB0.Pin = GPIO_PIN_0;
+  PB0.Mode = GPIO_MODE_ANALOG;
+  PB0.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &PB0);
+
   HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
   HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
@@ -435,24 +441,30 @@ void MX_ADC1_Init(void)
   /* GPIO Ports Clock Enable */
   __GPIOB_CLK_ENABLE();
 
-    /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
-    */
- // hadc1.Instance = ADC1;
- // hadc1.Init.ClockPrescaler = ;
- // hadc1.Init.Resolution = ;
- // hadc1.Init.ScanConvMode = ;
- // hadc1.Init.ContinuousConvMode = ;
- // hadc1.Init.DiscontinuousConvMode = ;
- // hadc1.Init.ExternalTrigConvEdge = ;
- // hadc1.Init.DataAlign = ;
- // hadc1.Init.NbrOfConversion = ;
- // hadc1.Init.DMAContinuousRequests = ;
- // hadc1.Init.EOCSelection = ;
-  HAL_ADC_Init(&hadc1);
+  /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
+  */
+  hadc1.Instance = ADC1;                                // Specifies that you're using ADC1 peripheral
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4; // ADC clock is peripheral clock (PCLK) divided by 4
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;           // 12-bit resolution (0-4095 range)
+  hadc1.Init.ScanConvMode = ENABLE;                     // ADC will convert multiple channels in a sequence (if ENABLE) or just a single channel (if DISABLE).
+  hadc1.Init.ContinuousConvMode = ENABLE;               // ADC continuously converts without stopping
+  hadc1.Init.DiscontinuousConvMode = DISABLE;           // Discontinuous mode off (not splitting conversions into subgroups)
+  hadc1.Init.ExternalTrigConvEdge = ADC_SOFTWARE_START;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;           // Data is right-aligned in the register
+  hadc1.Init.NbrOfConversion = 2;                       // Number of channels to convert in sequence (2 channels)
+  hadc1.Init.DMAContinuousRequests = DISABLE;           // DMA not used for continuous requests
+  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;        // End of Conversion flag set after each single conversion
 
-    /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
-    */
-  sConfig.Channel = ADC_CHANNEL_8;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    while (1)
+    {
+    }
+ }
+
+  /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_3;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   HAL_ADC_ConfigChannel(&hadc1, &sConfig);
