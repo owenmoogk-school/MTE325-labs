@@ -48,6 +48,9 @@ The latency between when the interrupt is triggered and when it is executed coul
 
 
 ## Lab 3: Limit Switch implementation
+
+In this lab, we used machine number 9. We will continue to use this machine for the remainder of the term.
+
 ### Test cases:
 - if the X switches are triggered the X motors should be capable or reversing or stopping
 - if the Y switches are triggered the Y motors should be capable or reversing or stopping
