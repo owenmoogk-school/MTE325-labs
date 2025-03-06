@@ -10,17 +10,17 @@ void SysTick_Handler(void)
 }
 
 const int clockSpeed = 84 * 10^6;
-const int debounceDelay = 150; // ms...?
+const int debounceDelayMs = 75;
 
 void wait(float ms){
   int volatile i = 0;
-  while (i < ms * clockSpeed / 2){i++;}
+  while (i < ms * clockSpeed){i++;}
 }
 
 // y max
 void EXTI0_IRQHandler(void)
 {
-  wait(debounceDelay);
+  wait(debounceDelayMs);
   if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0))
   {
     if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7))
@@ -37,7 +37,7 @@ void EXTI0_IRQHandler(void)
 // y min
 void EXTI9_5_IRQHandler(void)
 {
-  wait(debounceDelay);
+  wait(debounceDelayMs);
   if (!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7))
   {
     if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0))
@@ -55,7 +55,7 @@ void EXTI9_5_IRQHandler(void)
 // x max
 void EXTI1_IRQHandler(void)
 {
-  wait(debounceDelay);
+  wait(debounceDelayMs);
   if (!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1))
   {
     if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4))
@@ -72,7 +72,7 @@ void EXTI1_IRQHandler(void)
 // x min
 void EXTI4_IRQHandler(void)
 {
-  wait(debounceDelay);
+  wait(debounceDelayMs);
   if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4))
   {
     if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)){

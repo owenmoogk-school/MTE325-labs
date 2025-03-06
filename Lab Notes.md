@@ -62,10 +62,14 @@ In this lab, we used machine number 9. We will continue to use this machine for 
 - The switches were chosen to be normally high and thus triggered on a falling edge with a pulldown resistor. We choose this because if the high lines on any of the switches break we want the system to recognize it is in an undefined state and thus stop as opposed to do nothing.
 - For the interrupts we set separate handlers for each switch such that there is a faster response time given that everything has a dedicated handler
 
+## Lab 4: ADC Implementation
+
+
+
 
 ### For next time
-- Setup debouncing
+- Change away from PA0
 - 
+Setup debouncing
 
 
-Change away from PA0
