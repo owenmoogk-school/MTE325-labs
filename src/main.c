@@ -46,7 +46,11 @@ int main(void)
   }
 
   uint32_t volatile adc_value = 0; // Variable to store ADC reading
-  
+  uint32_t operating_adc_value = 0;
+  uint32_t motor_change_threshold  = 20;
+  uint32_t zero_speed_threshold = 200;
+
+  uint32_t zero_speed_value = 2048; // half of the adc max value
   while (1)
   {
     USART_CheckAppCmd();
@@ -55,10 +59,17 @@ int main(void)
     {
       // Get ADC value (0-4095 for 12-bit resolution)
       adc_value = HAL_ADC_GetValue(&hadc1);
-      char string[1000];
-      itoa(adc_value, string, 16);
-      USART_Transmit(&huart2, string);
-      USART_Transmit(&huart2, "HELLO I AM UNDER THE WATER");
+    }
+
+    if (abs(adc_value - operating_adc_value) > motor_change_threshold){
+      operating_adc_value = adc_value;
+
+      if (abs(operating_adc_value - zero_speed_value) < zero_speed_threshold){
+        // turn off motors
+      }
+      else{
+        // update motors
+      }
     }
   }
 }

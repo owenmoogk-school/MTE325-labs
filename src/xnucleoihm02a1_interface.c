@@ -455,12 +455,7 @@ void MX_ADC1_Init(void)
   hadc1.Init.DMAContinuousRequests = DISABLE;           // DMA not used for continuous requests
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;        // End of Conversion flag set after each single conversion
 
-  if (HAL_ADC_Init(&hadc1) != HAL_OK)
-  {
-    while (1)
-    {
-    }
- }
+  HAL_ADC_Init(&hadc1);
 
   /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
