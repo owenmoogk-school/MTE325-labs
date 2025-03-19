@@ -10,7 +10,10 @@ void SysTick_Handler(void)
 }
 
 const int clockSpeed = 84 * 10^6;
-const int debounceDelayMs = 75;
+const int xResetDelay = 1000;
+const int yResetDelay = 2000;
+const int debounceDelayMs = 20;
+const int motorReturnSpeed = 20000;
 
 void wait(float ms){
   int volatile i = 0;
@@ -25,7 +28,9 @@ void EXTI0_IRQHandler(void)
   {
     if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_7))
     {
-      L6470_Run(L6470_ID(1), 1, 10000);
+      L6470_Run(L6470_ID(1), 1, motorReturnSpeed);
+      wait(yResetDelay);
+      L6470_HardStop(L6470_ID(1));
     }
     else{
       L6470_HardStop(L6470_ID(1));
@@ -42,7 +47,9 @@ void EXTI9_5_IRQHandler(void)
   {
     if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0))
     {
-      L6470_Run(L6470_ID(1), 0, 10000);
+      L6470_Run(L6470_ID(1), 0, motorReturnSpeed);
+      wait(yResetDelay);
+      L6470_HardStop(L6470_ID(1));
     }
     else
     {
@@ -60,7 +67,9 @@ void EXTI1_IRQHandler(void)
   {
     if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4))
     {
-      L6470_Run(L6470_ID(0), 0, 10000);
+      L6470_Run(L6470_ID(0), 1, motorReturnSpeed);
+      wait(xResetDelay);
+      L6470_HardStop(L6470_ID(0));
     }
     else{
       L6470_HardStop(L6470_ID(0));
@@ -76,7 +85,9 @@ void EXTI4_IRQHandler(void)
   if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4))
   {
     if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)){
-      L6470_Run(L6470_ID(0), 1, 10000);
+      L6470_Run(L6470_ID(0), 0, motorReturnSpeed);
+      wait(xResetDelay);
+      L6470_HardStop(L6470_ID(0));
     }
     else{
       L6470_HardStop(L6470_ID(0));

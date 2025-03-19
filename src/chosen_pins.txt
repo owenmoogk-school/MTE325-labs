@@ -3,4 +3,8 @@ PA0 - ymax
 PA1 - xmax
 PC7 - ymin
 
-PB0 - pot
+PB0 - xpot
+PB5 - ypot
+
+ST2 - xmotor
+ST1 - ymotor
