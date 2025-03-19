@@ -52,6 +52,7 @@ int main(void)
   int32_t const X_SPEED_MULTIPLIER = 13;
   int32_t const Y_SPEED_MULTIPLIER = 13;
 
+  uint16_t adc_values[2];     // Buffer for ADC readings (0-4095 for 12-bit)
   int32_t const ZERO_SPEED_VALUE = 2048; // half of the adc max value
   while (1)
   {
@@ -60,7 +61,10 @@ int main(void)
     if (HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK)
     {
       // Get ADC value (0-4095 for 12-bit resolution)
-      adc_value = HAL_ADC_GetValue(&hadc1);
+      for (uint8_t i = 0; i < 2; i++)
+      {
+        adc_values[i] = HAL_ADC_GetValue(&hadc1); // Read each channel
+      }
     }
 
     // if (abs(adc_value - operating_adc_value) > MOTOR_CHANGE_THRESHOLD)
@@ -87,7 +91,7 @@ int main(void)
     // y logic
     if (abs(adc_value - operating_adc_value) > MOTOR_CHANGE_THRESHOLD)
     {
-      operating_adc_value = adc_value;
+      operating_adc_value = adc_values[0];
 
       if (abs(operating_adc_value - ZERO_SPEED_VALUE) < ZERO_SPEED_THRESHOLD)
       {

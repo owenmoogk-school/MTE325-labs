@@ -181,11 +181,11 @@ void MX_GPIO_Init(void)
   PB0.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &PB0);
 
-  GPIO_InitTypeDef PB5;
-  PB0.Pin = GPIO_PIN_5;
-  PB0.Mode = GPIO_MODE_ANALOG;
-  PB0.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &PB0);
+  GPIO_InitTypeDef PA4;
+  PA4.Pin = GPIO_PIN_4;
+  PA4.Mode = GPIO_MODE_ANALOG;
+  PA4.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &PA4);
 
   HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
   HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
@@ -441,7 +441,7 @@ void MX_USART2_Init(void)
  */
 void MX_ADC1_Init(void)
 {
-  ADC_ChannelConfTypeDef sConfig;
+  
 
   /* GPIO Ports Clock Enable */
   __GPIOB_CLK_ENABLE();
@@ -456,7 +456,7 @@ void MX_ADC1_Init(void)
   hadc1.Init.DiscontinuousConvMode = DISABLE;           // Discontinuous mode off (not splitting conversions into subgroups)
   hadc1.Init.ExternalTrigConvEdge = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;    // Data is right-aligned in the register
-  hadc1.Init.NbrOfConversion = 1;                // Number of channels to convert in sequence (2 channels)
+  hadc1.Init.NbrOfConversion = 2;                // Number of channels to convert in sequence (2 channels)
   hadc1.Init.DMAContinuousRequests = DISABLE;    // DMA not used for continuous requests
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV; // End of Conversion flag set after each single conversion
 
@@ -464,10 +464,18 @@ void MX_ADC1_Init(void)
 
   /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
    */
-  sConfig.Channel = ADC_CHANNEL_8;
-  sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+  ADC_ChannelConfTypeDef channel8;
+  channel8.Channel = ADC_CHANNEL_8;
+  channel8.Rank = 1;
+  channel8.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+
+  ADC_ChannelConfTypeDef channel4;
+  channel4.Channel = ADC_CHANNEL_8;
+  channel4.Rank = 1;
+  channel4.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+
+  HAL_ADC_ConfigChannel(&hadc1, &channel4);
+  HAL_ADC_ConfigChannel(&hadc1, &channel8);
 }
 
 /**
