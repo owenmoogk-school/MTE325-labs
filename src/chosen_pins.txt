@@ -1,4 +1,6 @@
-PB4
-PA0
-PA1
-PC7
+PB4 - xmin
+PA0 - ymax
+PA1 - xmax
+PC7 - ymin
+
+PB0 - pot

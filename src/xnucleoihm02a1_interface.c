@@ -447,7 +447,7 @@ void MX_ADC1_Init(void)
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4; // ADC clock is peripheral clock (PCLK) divided by 4
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;           // 12-bit resolution (0-4095 range)
   hadc1.Init.ScanConvMode = ENABLE;                     // ADC will convert multiple channels in a sequence (if ENABLE) or just a single channel (if DISABLE).
-  hadc1.Init.ContinuousConvMode = DISABLE;               // ADC continuously converts without stopping
+  hadc1.Init.ContinuousConvMode = DISABLE;              // ADC continuously converts without stopping
   hadc1.Init.DiscontinuousConvMode = DISABLE;           // Discontinuous mode off (not splitting conversions into subgroups)
   hadc1.Init.ExternalTrigConvEdge = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;           // Data is right-aligned in the register

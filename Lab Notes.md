@@ -75,3 +75,12 @@ We demo'd this, and then continued to the ADC implementation. We wired it up to 
 
 - We're currently using PA0 for a limit switch interrupt, which will need to be changed as it's used for the motor drivers.
 - Fix up the ADC!
+
+
+## Lab 4.1: Working on the ADC
+
+Between lab 4 and 5, we worked on the ADC. The main issue that we were facing with the ADC turned out to be an incorrectly selected channel. We also changed the settings of the ADC configuration to more accurately reflect the sampling and measurements that we wanted to take. In the next lab, we will work on characterizing it.
+
+## Lab 5: Completing ADC, starting Motor Control
+
+We completed the ADC charactarization, and completed the demo. Now we will impelement motors.
