@@ -185,7 +185,7 @@ void MX_GPIO_Init(void)
   PA4.Pin = GPIO_PIN_4;
   PA4.Mode = GPIO_MODE_ANALOG;
   PA4.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &PA4);
+  HAL_GPIO_Init(GPIOA, &PA4);
 
   HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
   HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
@@ -470,7 +470,7 @@ void MX_ADC1_Init(void)
   channel8.SamplingTime = ADC_SAMPLETIME_3CYCLES;
 
   ADC_ChannelConfTypeDef channel4;
-  channel4.Channel = ADC_CHANNEL_8;
+  channel4.Channel = ADC_CHANNEL_4;
   channel4.Rank = 1;
   channel4.SamplingTime = ADC_SAMPLETIME_3CYCLES;
 
