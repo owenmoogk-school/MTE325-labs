@@ -3,6 +3,20 @@
 #include "example_usart.h"
 #include "L6470.h"
 
+uint32_t readADC(uint32_t channel)
+{
+  ADC_ChannelConfTypeDef channelConfig;
+  channelConfig.Channel = channel;
+  channelConfig.Rank = 1;
+  channelConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+
+  HAL_ADC_ConfigChannel(&hadc1, &channelConfig);
+
+  HAL_ADC_Start(&hadc1);
+  HAL_ADC_PollForConversion(&hadc1, 1000);
+  return HAL_ADC_GetValue(&hadc1);
+}
+
 int main(void)
 {
   /* NUCLEO board initialization */
@@ -51,21 +65,14 @@ int main(void)
   int32_t const ZERO_SPEED_THRESHOLD = 300;
   int32_t const X_SPEED_MULTIPLIER = 13;
   int32_t const Y_SPEED_MULTIPLIER = 13;
-
-  uint16_t adc_values[2];     // Buffer for ADC readings (0-4095 for 12-bit)
+  volatile uint16_t adc_values[2];                // Buffer for ADC readings (0-4095 for 12-bit)
   int32_t const ZERO_SPEED_VALUE = 2048; // half of the adc max value
+
   while (1)
   {
     USART_CheckAppCmd();
-    HAL_ADC_Start(&hadc1);
-    if (HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK)
-    {
-      // Get ADC value (0-4095 for 12-bit resolution)
-      for (uint8_t i = 0; i < 2; i++)
-      {
-        adc_values[i] = HAL_ADC_GetValue(&hadc1); // Read each channel
-      }
-    }
+    adc_values[0] = readADC(ADC_CHANNEL_8);
+    adc_values[1] = readADC(ADC_CHANNEL_4);
 
     // if (abs(adc_value - operating_adc_value) > MOTOR_CHANGE_THRESHOLD)
     // {
@@ -86,7 +93,6 @@ int main(void)
     //     L6470_Run(L6470_ID(0), direction, abs((operating_adc_value - ZERO_SPEED_VALUE)) * X_SPEED_MULTIPLIER);
     //   }
     // }
-
 
     // y logic
     if (abs(adc_value - operating_adc_value) > MOTOR_CHANGE_THRESHOLD)

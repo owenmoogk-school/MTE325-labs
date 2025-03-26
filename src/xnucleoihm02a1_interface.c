@@ -456,7 +456,7 @@ void MX_ADC1_Init(void)
   hadc1.Init.DiscontinuousConvMode = DISABLE;           // Discontinuous mode off (not splitting conversions into subgroups)
   hadc1.Init.ExternalTrigConvEdge = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;    // Data is right-aligned in the register
-  hadc1.Init.NbrOfConversion = 2;                // Number of channels to convert in sequence (2 channels)
+  hadc1.Init.NbrOfConversion = 1;                // Number of channels to convert in sequence (2 channels)
   hadc1.Init.DMAContinuousRequests = DISABLE;    // DMA not used for continuous requests
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV; // End of Conversion flag set after each single conversion
 
