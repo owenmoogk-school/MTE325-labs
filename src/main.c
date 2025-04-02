@@ -64,7 +64,7 @@ int main(void)
   int32_t const MOTOR_CHANGE_THRESHOLD = 100;
   int32_t const ZERO_SPEED_THRESHOLD = 300;
   int32_t const X_SPEED_MULTIPLIER = 13;
-  int32_t const Y_SPEED_MULTIPLIER = 13;
+  int32_t const Y_SPEED_MULTIPLIER = 11;
   volatile uint16_t adc_values[2];                // Buffer for ADC readings (0-4095 for 12-bit)
   int32_t const ZERO_SPEED_VALUE = 2048; // half of the adc max value
 

@@ -206,4 +206,8 @@ This was discussed above.
 
 ## Lab 5.1: Reporting, Getting a Second Potentiometer Working
 
-In this time between lab sessions, we spent some time reporting where we were, and getting the ADC working to read two different potentiometers at the same time.
+In this time between lab sessions, we spent some time reporting where we were, and getting the ADC working to read two different potentiometers at the same time. We did this by reconfiguring the ADC to read from a different channel each time we needed to read data. This is slow because we needed to reconfigure it each time, however was more than good enough.
+
+## Lab 6: Final Lab
+
+The final lab was used to get the system working wholistically. We ran into issues with the pin selection, as the pin we had chosen for the second pot was used in the motor control, breaking our system. We had to re-configure this to get everything working as intended. After that, it was simple to complete the demos and finish the project!
