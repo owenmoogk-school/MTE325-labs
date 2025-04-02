@@ -181,11 +181,11 @@ void MX_GPIO_Init(void)
   PB0.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &PB0);
 
-  GPIO_InitTypeDef PA4;
-  PA4.Pin = GPIO_PIN_4;
-  PA4.Mode = GPIO_MODE_ANALOG;
-  PA4.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &PA4);
+  GPIO_InitTypeDef PA5;
+  PA5.Pin = GPIO_PIN_5;
+  PA5.Mode = GPIO_MODE_ANALOG;
+  PA5.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &PA5);
 
   HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
   HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);

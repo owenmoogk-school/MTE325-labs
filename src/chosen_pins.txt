@@ -4,7 +4,7 @@ PA1 - xmax
 PC7 - ymin
 
 PB0 - xpot
-PA4 - ypot
+PA5 - ypot
 
 ST2 - xmotor
 ST1 - ymotor

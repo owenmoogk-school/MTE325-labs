@@ -72,7 +72,7 @@ int main(void)
   {
     USART_CheckAppCmd();
     adc_values[0] = readADC(ADC_CHANNEL_8);
-    adc_values[1] = readADC(ADC_CHANNEL_4);
+    adc_values[1] = readADC(ADC_CHANNEL_5);
 
     // x dir
     if (abs(adc_values[0] - operating_adc_value_x) > MOTOR_CHANGE_THRESHOLD)
