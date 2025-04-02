@@ -3,6 +3,20 @@
 #include "example_usart.h"
 #include "L6470.h"
 
+uint32_t readADC(uint32_t channel)
+{
+  ADC_ChannelConfTypeDef channelConfig;
+  channelConfig.Channel = channel;
+  channelConfig.Rank = 1;
+  channelConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+
+  HAL_ADC_ConfigChannel(&hadc1, &channelConfig);
+
+  HAL_ADC_Start(&hadc1);
+  HAL_ADC_PollForConversion(&hadc1, 1000);
+  return HAL_ADC_GetValue(&hadc1);
+}
+
 int main(void)
 {
   /* NUCLEO board initialization */
@@ -56,12 +70,7 @@ int main(void)
   while (1)
   {
     USART_CheckAppCmd();
-    HAL_ADC_Start(&hadc1);
-    if (HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK)
-    {
-      // Get ADC value (0-4095 for 12-bit resolution)
-      adc_value = HAL_ADC_GetValue(&hadc1);
-    }
+    adc_value = readADC(ADC_CHANNEL_8);
 
     // if (abs(adc_value - operating_adc_value) > MOTOR_CHANGE_THRESHOLD)
     // {
