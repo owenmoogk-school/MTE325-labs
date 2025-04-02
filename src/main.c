@@ -59,8 +59,8 @@ int main(void)
     L6470_Run(L6470_ID(1), 0, 10000);
   }
 
-  int32_t volatile adc_value = 0; // Variable to store ADC reading
-  int32_t operating_adc_value = 0;
+  int32_t operating_adc_value_x = 0;
+  int32_t operating_adc_value_y = 0;
   int32_t const MOTOR_CHANGE_THRESHOLD = 100;
   int32_t const ZERO_SPEED_THRESHOLD = 300;
   int32_t const X_SPEED_MULTIPLIER = 13;
@@ -74,32 +74,33 @@ int main(void)
     adc_values[0] = readADC(ADC_CHANNEL_8);
     adc_values[1] = readADC(ADC_CHANNEL_4);
 
-    // if (abs(adc_value - operating_adc_value) > MOTOR_CHANGE_THRESHOLD)
-    // {
-    //   operating_adc_value = adc_value;
+    // x dir
+    if (abs(adc_values[0] - operating_adc_value_x) > MOTOR_CHANGE_THRESHOLD)
+    {
+      operating_adc_value_x = adc_values[0];
 
-    //   if (abs(operating_adc_value - ZERO_SPEED_VALUE) < ZERO_SPEED_THRESHOLD)
-    //   {
-    //     L6470_HardStop(L6470_ID(0));
-    //   }
+      if (abs(operating_adc_value_x - ZERO_SPEED_VALUE) < ZERO_SPEED_THRESHOLD)
+      {
+        L6470_HardStop(L6470_ID(0));
+      }
 
-    //   else
-    //   {
-    //     eL6470_DirId_t direction = 0;
-    //     if ((operating_adc_value - ZERO_SPEED_VALUE) > 0)
-    //     {
-    //       direction = 1;
-    //     }
-    //     L6470_Run(L6470_ID(0), direction, abs((operating_adc_value - ZERO_SPEED_VALUE)) * X_SPEED_MULTIPLIER);
-    //   }
-    // }
+      else
+      {
+        eL6470_DirId_t direction = 0;
+        if ((operating_adc_value_x - ZERO_SPEED_VALUE) > 0)
+        {
+          direction = 1;
+        }
+        L6470_Run(L6470_ID(0), direction, abs((operating_adc_value_x - ZERO_SPEED_VALUE)) * X_SPEED_MULTIPLIER);
+      }
+    }
 
     // y logic
-    if (abs(adc_value - operating_adc_value) > MOTOR_CHANGE_THRESHOLD)
+    if (abs(adc_values[1] - operating_adc_value_y) > MOTOR_CHANGE_THRESHOLD)
     {
-      operating_adc_value = adc_values[0];
+      operating_adc_value_y = adc_values[1];
 
-      if (abs(operating_adc_value - ZERO_SPEED_VALUE) < ZERO_SPEED_THRESHOLD)
+      if (abs(operating_adc_value_y - ZERO_SPEED_VALUE) < ZERO_SPEED_THRESHOLD)
       {
         L6470_HardStop(L6470_ID(1));
       }
@@ -107,11 +108,11 @@ int main(void)
       else
       {
         eL6470_DirId_t direction = 0;
-        if ((operating_adc_value - ZERO_SPEED_VALUE) > 0)
+        if ((operating_adc_value_y - ZERO_SPEED_VALUE) > 0)
         {
           direction = 1;
         }
-        L6470_Run(L6470_ID(1), direction, abs((operating_adc_value - ZERO_SPEED_VALUE)) * Y_SPEED_MULTIPLIER);
+        L6470_Run(L6470_ID(1), direction, abs((operating_adc_value_y - ZERO_SPEED_VALUE)) * Y_SPEED_MULTIPLIER);
       }
     }
   }
