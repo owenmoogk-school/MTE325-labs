@@ -1,6 +1,13 @@
 # Lab Notes
 
 #### Brendan Chharawala, Owen Moogk, Nirmit Parikh
+All group members contributed equally to all parts of this project
+
+## Acknowledgments
+- Stack Overflow served as an invaluable tool throughout this project specifically with debugging problems with the ADC. The advice and code examples from the forum helped with the groups understanding on conv mode discontinuous, scan mode, and other ADC setup parameters.
+- We thank the course TA's (Jacob Kowalski, Rachel Du, and Xing Xing) for their help in debugging C code when we were at a loss for what was going wrong. Their help in clarifying instructions, and patience in answering our groups questions about the F401RE is appreciated.
+- ChatGPT. Despite the groups initial assumptions, ChatGPT 
+- Asa Littlejohn was a valuable peer to poll questions to during the project specifically when our group was having trouble getting the motors running. His insights helped us understad why the code we had written for our motors to run weren't running. 
 
 ## Session 1
 
