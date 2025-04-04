@@ -5,9 +5,9 @@ All group members contributed equally to all parts of this project
 
 ## Acknowledgments
 - Stack Overflow served as an invaluable tool throughout this project specifically with debugging problems with the ADC. The advice and code examples from the forum helped with the groups understanding on conv mode discontinuous, scan mode, and other ADC setup parameters.
-- We thank the course TA's (Jacob Kowalski, Rachel Du, and Xing Xing) for their help in debugging C code when we were at a loss for what was going wrong. Their help in clarifying instructions, and patience in answering our groups questions about the F401RE is appreciated.
-- ChatGPT. Despite the groups initial assumptions, ChatGPT 
-- Asa Littlejohn was a valuable peer to poll questions to during the project specifically when our group was having trouble getting the motors running. His insights helped us understad why the code we had written for our motors to run weren't running. 
+- We thank the course TAs (Jacob Kowalski, Rachel Du, and Xing Xing) for their help in debugging C code when we were at a loss for what was going wrong. Their help in clarifying instructions, and patience in answering our group's questions about the F401RE is appreciated.
+- ChatGPT. Despite the group's initial assumptions, ChatGPT didn't turn out to be very helpful for this project. Aside from relatively trivial explanations of how a motor id function was called or why an if statement wasn't triggering, ChatGPT was only minimally used.
+- Asa Littlejohn was a valuable peer to poll questions to during the project specifically when our group was having trouble getting the motors running. His insights helped us understand why the code we had written for our motors to run weren't running. 
 
 ## Session 1
 
@@ -17,7 +17,7 @@ In this session, we're initializing our project with a new git repo, and followi
 
 We connected the limit switch to PB4, and ground. Then, we configured it to be a pullup high, and outputted the result to serial. This way we could output the read value and verify that the circuit works.
 
-Next, we used pin PC7 and ground, through a potentiometer, to light up and LED with a GPIO pin.
+Next, we used pin PC7 and ground, through a potentiometer, to light up an LED with a GPIO pin.
 
 Lastly, we hooked up the motors and got the motors spinning based on the UART commands, or the demo. See below for documentation:
 ![](assets/image.png)
@@ -107,31 +107,31 @@ In the next lab, we will work on characterizing the motor control, and ensuring 
 
 ## Lab 5: Completing ADC, starting Motor Control
 
-We completed the ADC charactarization, and completed the demo. Now we will impelement motors. This worked fairly well, and we were able to get the motors moving at adequate speeds, and were able to control them well.
+We completed the ADC characterization, and completed the demo. Now we will implement motors. This worked fairly well, and we were able to get the motors moving at adequate speeds, and were able to control them well.
 
-### ADC Charactarization
+### ADC characterization
 
-The ADC was charactarized by reading the values that were put into it with a multimeter, and then reading the digital output from the ADC. Comparing these two, it was found that the ADC was extremely linear and gave accurate readings, which can be seen from the INL and DLE errors calculated:
+The ADC was characterized by reading the values that were put into it with a multimeter, and then reading the digital output from the ADC. Comparing these two, it was found that the ADC was extremely linear and gave accurate readings, which can be seen from the INL and DLE errors calculated:
 
 ![](assets/20250326_135751_image.png)
 
 ![](assets/20250326_135811_image.png)
 
-### Potentiometer Charactarization
+### Potentiometer characterization
 
-The potententiometer was charactactarized in a similar fashion, reading the input angles and the resistance measured. However, there may be some small error in the measurement of the potentiometer angle, due to a lack of proper measuring equipment. We made this measurement by aligning a protractor to the potentiometer, and then using a screwdriver mounted to a jack-knife to point to the approximate angle. We acknoledge that this is not an ideal or accurate testing setup, however approximate results were all that were needed. The following results were obtained:
+The potentiometer was characterized in a similar fashion, reading the input angles and the resistance measured. However, there may be some small error in the measurement of the potentiometer angle, due to a lack of proper measuring equipment. We made this measurement by aligning a protractor to the potentiometer, and then using a screwdriver mounted to a jack-knife to point to the approximate angle. We acknowledge that this is not an ideal or accurate testing setup, however approximate results were all that were needed. The following results were obtained:
 
 ![](assets/20250326_135850_image.png)
 
 ![](assets/20250326_135907_image.png)
 
-### Motor Charactarization
+### Motor characterization
 
-The motors were controlled using a velocity based control. This was decided so that the position of the potentiometer corresponded to a velocity instead of a position. This was decided because we didn't want there to be a situation where the position requested was invalid (if the pot was set all the way to one side, requesting a position that wasn't within the bounds of the machine).
+The motors were controlled using velocity control, where the potentiometer position mapped to a velocity rather than a fixed position. This approach was chosen to avoid scenarios where the requested position might be outside the machine's physical limits... such as when the potentiometer is turned fully to one side.
 
-However, this came with a catch. We only updated the motor speeds when the potentiometer position changes, so that the interupts could change the motor speed without being immediately overwritten by the user control. Additionally, we added a "zero" buffer zone in the middle of the potentiometer control, so that the machine would be completely stopped if the control was within a window. This makes it easy for the user to stop the machine, and prevents a situation in which the user thinks the machine is stopped and it is actually moving at an incredibly slow speed, which could have safety implications.
+However, this introduced a trade-off. We only updated the motor speed when the potentiometer position changed, allowing interrupts to adjust motor speed without being immediately overridden by user input. We also added a "zero" buffer zone in the center of the potentiometer range, ensuring the machine comes to a full stop when the control is near the middle. This makes it easier for users to stop the machine intentionally and avoids situations where the machine might appear stopped but is actually moving very slowly, which could pose a safety risk.
 
-This was done through a few conditional statements, as shwon below:
+This was done through a few conditional statements, as shown below:
 
 ```
 if (abs(adc_value - operating_adc_value) > MOTOR_CHANGE_THRESHOLD)
@@ -159,13 +159,14 @@ if (abs(adc_value - operating_adc_value) > MOTOR_CHANGE_THRESHOLD)
 
 *What is required to turn it on?*
 
-This needed to be configured in code, using a configuration function. After the ADC configuration described above, it was initalized with the code below.
+This needed to be configured in code, using a configuration function. After the ADC configuration described above, it was initialized with the code below.
 
 ADC_ChannelConfTypeDef channel8;
 channel8.Channel = ADC_CHANNEL_8;
 channel8.Rank = 1;
 channel8.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-HAL_ADC_ConfigChannel(&hadc1, &channel4);
+HAL_ADC_ConfigChannel(&hadc1, &channel8);
+
 *What resolution did you choose? Why?*
 
 We chose a 12 bit resolution. This was chosen because it provides more than enough resolution for our use case, and is relatively simple to work with. Going larger wouldn't bring any benefits, however going smaller may make the system feel clunky or discrete, which would not be a nice user experience.
@@ -176,23 +177,23 @@ We are in single-shot conversion mode. This is because we don't really care what
 
 *What is your sampling time? Why?*
 
-Since we're doing single-shot, we don't have a sampling time. Instead, the ADC is sampling each time our while loop completes, the sampling time is variable. As previously mentioned, although this may not be possible, it's more than good enough.
+We used a sampling time of 3 ADC clock cycles due to the fact that our input signal is stable and in the time span of the ADC, non-transient. because of this a short sampling time is enough for accurate conversion. Longer sampling times would be needed if our signal wasn't a potentiometer and instead a signal with much higher noise.
 
 *What happens when you change clock settings?*
 
-Again, like mentioned before, this isn't necessary. If we were to do this, it would sample more or less often, up to a limit of the ADC sampling frequency.
+In the lab, we asked the TA if this was necessary given that we were getting accurate results and they told us it was sufficient to not perform the experiment of changing clock settings but to instead mention what would happen. Changing the ADC clock settings would impact how quickly (or slowly) the ADC operates. Faster ADC means quicker conversions but if the sample isn't sampled long enough, could be inaccurate whereas a slower ADC could introduce an unnecessary bottleneck, for marginal gains in performance.
 
 *How can you ensure your ADC is enabled and working?*
 
-We were able to ensure that the ADC was enabled and working because a voltage applied at the ADC was able to be read into a variable in our code.
+We were able to ensure that the ADC was enabled and working because a voltage applied at the ADC was able to be read into a variable in our code. We tested a range of input voltages and resistances (with a multimeter) and confirmed the ADC values changed accordingly and accurately. This showed the ADC was functioning expectedly.
 
 *Ideally your ADC is linear. How accurate is it?*
 
-It is very accurate. From the results above, the errors are very small, and using a line of best fit in excel it was found that it has an R-value of 1 (meaning perfectly linear).
+It is very accurate. From the results above, the errors are very small, and using a line of best fit in excel it was found that it has an R-value of 1 (meaning perfectly linear). Low INL and DNL values further support that the ADC performed linearly and accurately.
 
 *What is the error in your ADC?*
 
-The INL and DLE are documented above.
+The INL and DLE are documented in the image above.
 
 ### POT Document Questions
 
@@ -208,6 +209,8 @@ This was discussed above.
 
 In this time between lab sessions, we spent some time reporting where we were, and getting the ADC working to read two different potentiometers at the same time. We did this by reconfiguring the ADC to read from a different channel each time we needed to read data. This is slow because we needed to reconfigure it each time, however was more than good enough.
 
+During this lab we ran into several bugs that turned out to be because the wires we were using had poor connections along with the potentiometers not being seated properly. Moreover, we also accidentally conencted the wrong pins to the board from the potentiometer which resulted in some wasted time in trying to figure out why we couldn't get a reading from the potentiometer to the ADC.
+
 ## Lab 6: Final Lab
 
-The final lab was used to get the system working wholistically. We ran into issues with the pin selection, as the pin we had chosen for the second pot was used in the motor control, breaking our system. We had to re-configure this to get everything working as intended. After that, it was simple to complete the demos and finish the project!
+The final lab was used to get the system working holistically. We ran into issues with the pin selection, as the pin we had chosen for the second pot was used in the motor control, breaking our system. We had to re-configure this to get everything working as intended. After that, it was simple to complete the demos. Thanks for a fun term! 
