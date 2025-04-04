@@ -213,4 +213,14 @@ During this lab we ran into several bugs that turned out to be because the wires
 
 ## Lab 6: Final Lab
 
+<<<<<<< Updated upstream
 The final lab was used to get the system working holistically. We ran into issues with the pin selection, as the pin we had chosen for the second pot was used in the motor control, breaking our system. We had to re-configure this to get everything working as intended. After that, it was simple to complete the demos. Thanks for a fun term! 
+=======
+The final lab was focused on system integration and resolving final issues. We initially ran into a conflict where the second potentiometer was connected to a pin already used by the motor control system. This caused unexpected behavior and broke motor operation.
+
+To fix this:
+- We rewired the potentiometer to a different ADC-compatible pin not shared with the motor driver.
+- We updated our software configuration accordingly.
+
+After resolving this, we completed the demos successfully. The motors responded to both potentiometers in real-time, the velocity control mapped properly, and the limit switches continued to operate safely. The machine could move in both axes simultaneously with user control while still maintaining interrupt-driven safety and accurate ADC readings.
+>>>>>>> Stashed changes
